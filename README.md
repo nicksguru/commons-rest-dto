@@ -1,4 +1,4 @@
-# REST DTO
+# [Nicks.Guru](https://nicks.guru) Commons REST DTO
 
 General-purpose DTOs for use in REST controllers.
 
