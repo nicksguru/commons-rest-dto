@@ -1,8 +1,8 @@
 # [Nicks.Guru](https://nicks.guru) Commons REST DTO
 
 :rocket:
-![Latest version](https://img.shields.io/maven-central/v/guru.nicks.commons/rest-dto?filter=!25.*&label=Latest%20version:&cacheSeconds=7200)
-![Release date](https://img.shields.io/maven-central/last-update/guru.nicks.commons/rest-dto?label=&color=orange&cacheSeconds=7200)
+![Latest version](https://img.shields.io/maven-central/v/guru.nicks.commons/rest-dto?filter=!25.*&label=Latest%20version:&cacheSeconds=10800)
+![Release date](https://img.shields.io/maven-central/last-update/guru.nicks.commons/rest-dto?label=&color=orange&cacheSeconds=10800)
 
 General-purpose DTOs for use in REST controllers.
 
