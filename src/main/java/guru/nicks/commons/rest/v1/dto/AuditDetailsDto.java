@@ -1,4 +1,4 @@
-package guru.nicks.rest.v1.dto;
+package guru.nicks.commons.rest.v1.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

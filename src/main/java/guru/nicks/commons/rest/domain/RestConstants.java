@@ -1,4 +1,4 @@
-package guru.nicks.rest.domain;
+package guru.nicks.commons.rest.domain;
 
 import lombok.experimental.UtilityClass;
 
