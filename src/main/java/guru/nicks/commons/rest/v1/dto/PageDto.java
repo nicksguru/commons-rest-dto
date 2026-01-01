@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import lombok.Builder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.util.Streamable;
 
@@ -21,10 +22,11 @@ import java.util.function.Function;
  */
 @Schema(description = "Paginated content")
 @JsonIgnoreProperties("empty") // pseudo-property - a method in Streamable
+@Builder(toBuilder = true)
 public record PageDto<T>(
 
         @Schema(description = "Page metadata")
-        Metadata metadata,
+        MetadataDto metadata,
 
         @Schema(description = "Page payload")
         List<T> data) implements Streamable<T> {
@@ -39,25 +41,39 @@ public record PageDto<T>(
      * @return new instance
      */
     public static <S, T> PageDto<T> of(@Nullable Page<S> source, Function<? super S, T> sourceToDtoMapper) {
-        Metadata metadata;
         List<T> data;
+        MetadataDto metadata;
 
         // empty page
         if ((source == null) || (source.getSize() == 0)) {
-            metadata = new Metadata(0, true, true, 0, 0, 0);
             data = Collections.emptyList();
-        }
-        // non-empty page
-        else {
+
+            metadata = MetadataDto.builder()
+                    .offset(0)
+                    .firstPage(true)
+                    .lastPage(true)
+                    .pageItems(0)
+                    .totalItems(0L)
+                    .totalPages(0)
+                    .build();
+        } else {
             data = source.stream()
                     .map(sourceToDtoMapper)
                     .toList();
-
-            metadata = new Metadata(source.getNumber(), source.isFirst(), source.isLast(),
-                    source.getNumberOfElements(), source.getTotalElements(), source.getTotalPages());
+            metadata = MetadataDto.builder()
+                    .offset(source.getNumber())
+                    .firstPage(source.isFirst())
+                    .lastPage(source.isLast())
+                    .pageItems(source.getNumberOfElements())
+                    .totalItems(source.getTotalElements())
+                    .totalPages(source.getTotalPages())
+                    .build();
         }
 
-        return new PageDto<>(metadata, data);
+        return PageDto.<T>builder()
+                .data(data)
+                .metadata(metadata)
+                .build();
     }
 
     /**
@@ -72,25 +88,26 @@ public record PageDto<T>(
     }
 
     @Schema(title = "Page metadata")
-    public record Metadata(
+    @Builder(toBuilder = true)
+    public record MetadataDto(
 
             @Schema(description = "Page offset (not number), starts from 0", example = "0")
-            int offset,
+            Integer offset,
 
             @Schema(description = "True if this is the first page", example = "true")
-            boolean firstPage,
+            Boolean firstPage,
 
             @Schema(description = "True if this is the last page", example = "false")
-            boolean lastPage,
+            Boolean lastPage,
 
             @Schema(description = "Number of items on this page", example = "3")
-            int pageItems,
+            Integer pageItems,
 
             @Schema(description = "Total number of items on all pages", example = "5")
-            long totalItems,
+            Long totalItems,
 
             @Schema(description = "Total number of pages", example = "2")
-            int totalPages) {
+            Integer totalPages) {
     }
 
 }

@@ -2,6 +2,7 @@ package guru.nicks.commons.rest.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import java.time.Instant;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Map;
  */
 @Schema(description = "Business exception")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Builder(toBuilder = true)
 public record BusinessExceptionDto(
 
         @Schema(description = "Error code")

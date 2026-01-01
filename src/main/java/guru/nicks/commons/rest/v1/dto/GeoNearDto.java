@@ -1,6 +1,7 @@
 package guru.nicks.commons.rest.v1.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 /**
  * Wrapper for {@code $geoNear} which returns both documents found and distances.
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @param <T> embedded object type
  */
 @Schema(description = "Distance from the given object")
+@Builder(toBuilder = true)
 public record GeoNearDto<T>(
 
         T object,

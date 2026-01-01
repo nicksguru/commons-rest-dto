@@ -2,6 +2,7 @@ package guru.nicks.commons.rest.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import org.springframework.validation.FieldError;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  */
 @Schema(description = "Error related to a request field")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Builder(toBuilder = true)
 public record FieldErrorDto(
 
         @Schema(description = "Field name", example = "username")
