@@ -5,14 +5,14 @@
     <parent>
         <groupId>guru.nicks.commons</groupId>
         <artifactId>parent</artifactId>
-        <version>100.260101.0</version><!-- [PVM] -->
+        <version>100.260101.1</version><!-- [PVM] -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <!-- groupId is redundant (inherited from parent), but required by Maven Central -->
     <groupId>guru.nicks.commons</groupId>
     <artifactId>rest-dto</artifactId>
-    <version>100.260101.0</version><!-- [PVM] -->
+    <version>100.260101.1</version><!-- [PVM] -->
 
     <name>Nicks.Guru Commons REST DTO</name>
     <description>General-purpose DTOs for use in REST controllers</description>
@@ -71,10 +71,10 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
         </dependency>
-        <!-- @Jacksonized -->
+        <!-- @JsonProperty -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
     </dependencies>
 </project>
