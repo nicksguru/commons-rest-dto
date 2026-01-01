@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public record BusinessExceptionDto(
         String traceId,
 
         @Schema(description = "Error details, such as custom HTTP response headers")
-        Map<String, Object> details) {
+        Map<String, Object> details) implements Serializable {
 
     public BusinessExceptionDto {
         if (timestamp == null) {

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
+import java.io.Serializable;
+
 /**
  * OAuth2 access token, as specified in
  * <a href="https://datatracker.ietf.org/doc/html/rfc6750#page-10">RFC 6750</a>.
@@ -19,5 +21,5 @@ public record OAuth2AccessTokenDto(
         Long expiresInSeconds,
 
         @JsonProperty("access_token")
-        String accessToken) {
+        String accessToken) implements Serializable {
 }

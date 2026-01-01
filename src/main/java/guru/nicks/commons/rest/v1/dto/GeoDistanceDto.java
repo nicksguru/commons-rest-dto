@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.apache.commons.lang3.Validate;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public record GeoDistanceDto(
         double meters,
 
         @Schema(description = "Base point")
-        GeoPointDto from) {
+        GeoPointDto from) implements Serializable {
 
     /**
      * Constructs object out of the MongoDB document where {@code $geoNear} returns distance calculated. {@link Map}

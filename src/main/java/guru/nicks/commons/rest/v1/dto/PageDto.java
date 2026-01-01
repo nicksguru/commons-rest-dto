@@ -8,6 +8,7 @@ import lombok.Builder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.util.Streamable;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,7 @@ public record PageDto<T>(
         MetadataDto metadata,
 
         @Schema(description = "Page payload")
-        List<T> data) implements Streamable<T> {
+        List<T> data) implements Serializable, Streamable<T> {
 
     /**
      * Factory method.
@@ -107,7 +108,7 @@ public record PageDto<T>(
             Long totalItems,
 
             @Schema(description = "Total number of pages", example = "2")
-            Integer totalPages) {
+            Integer totalPages) implements Serializable {
     }
 
 }

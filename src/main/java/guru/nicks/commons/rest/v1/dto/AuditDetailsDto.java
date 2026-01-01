@@ -13,13 +13,13 @@ import java.io.Serializable;
 public record AuditDetailsDto(
 
         DetailsDto createdBy,
-        DetailsDto lastModifiedBy) {
+        DetailsDto lastModifiedBy) implements Serializable {
 
     @Builder(toBuilder = true)
     public record DetailsDto(
 
             String userId,
-            String traceId) {
+            String traceId) implements Serializable {
     }
 
 }
