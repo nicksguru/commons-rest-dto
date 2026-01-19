@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.springframework.data.geo.Point;
 
+import java.io.Serializable;
+
 /**
  * Maps {@link Point}.
  */
@@ -15,5 +17,5 @@ public record GeoPointDto(
         double lat,
 
         @Schema(description = "Longitude")
-        double lon) {
+        double lon) implements Serializable {
 }
