@@ -17,17 +17,30 @@ public abstract class DtoStrategyAwareController<T, S, DTO> {
     protected abstract BiFunction<T, S, DTO> getDtoMapper();
 
     /**
+     * @return default mapping strategy (applied by {@link #toDto(T)})
+     */
+    protected abstract S getDefaultMappingStrategy();
+
+    /**
      * Maps source to DTO.
      *
      * @param source          source (such as JPA entity)
      * @param mappingStrategy mapping strategy (affects e.g. which lazy-loaded JPA properties to map and thus load from
      *                        DB)
      * @return DTO
+     * @see #toDto(Object)
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     protected DTO toDto(T source, S mappingStrategy) {
         DTO dto = getDtoMapper().apply(source, mappingStrategy);
         return dto;
+    }
+
+    /**
+     * Calls {@link #toDto(Object, Object)} passing {@link #getDefaultMappingStrategy()} as the mapping strategy.
+     */
+    protected DTO toDto(T source) {
+        return toDto(source, getDefaultMappingStrategy());
     }
 
 }
