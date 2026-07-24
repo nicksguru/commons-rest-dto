@@ -13,7 +13,8 @@ import java.util.function.BiFunction;
  * @param <S>   mapping strategy type (affects e.g. which lazy-loaded JPA properties to map and thus load from DB)
  * @param <DTO> DTO type
  */
-public abstract class PageStrategyAwareController<T, S, DTO> extends DtoStrategyAwareController<T, S, DTO> {
+@SuppressWarnings("java:S119") // allow non-single-letter type names in generics
+public abstract class PageStrategyAwareController<T, ID, S, DTO> extends DtoStrategyAwareController<T, ID, S, DTO> {
 
     /**
      * @return mapper from a page of source objects to a page of DTOs

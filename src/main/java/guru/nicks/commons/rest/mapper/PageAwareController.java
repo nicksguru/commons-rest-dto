@@ -9,10 +9,12 @@ import java.util.function.Function;
 /**
  * Provides uniform methods for mapping between a page of source objects and a page of DTOs.
  *
- * @param <T>   source (such as JPA entity) type
+ * @param <T>   type of object being managed
+ * @param <ID>  object ID type
  * @param <DTO> DTO type
  */
-public abstract class PageAwareController<T, DTO> extends DtoAwareController<T, DTO> {
+@SuppressWarnings("java:S119") // allow non-single-letter type names in generics
+public abstract class PageAwareController<T, ID, DTO> extends DtoAwareController<T, ID, DTO> {
 
     /**
      * @return mapper from a page of source objects to a page of DTOs
