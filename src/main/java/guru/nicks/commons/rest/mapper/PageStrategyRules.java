@@ -7,14 +7,15 @@ import org.springframework.data.domain.Page;
 import java.util.function.BiFunction;
 
 /**
- * Provides uniform methods for mapping between a page of source objects and a page of DTOs.
+ * Provides uniform methods for mapping between a page of source objects and a page of DTOs. All the methods are
+ * {@code protected} to avoid exposing them in controllers inadvertently.
  *
  * @param <T>   source (such as JPA entity) type
  * @param <S>   mapping strategy type (affects e.g. which lazy-loaded JPA properties to map and thus load from DB)
  * @param <DTO> DTO type
  */
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
-public abstract class PageStrategyAwareController<T, ID, S, DTO> extends DtoStrategyAwareController<T, ID, S, DTO> {
+public abstract class PageStrategyRules<T, ID, S, DTO> extends DtoStrategyRules<T, ID, S, DTO> {
 
     /**
      * @return mapper from a page of source objects to a page of DTOs
