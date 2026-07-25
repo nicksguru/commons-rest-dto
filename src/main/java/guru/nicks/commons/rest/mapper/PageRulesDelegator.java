@@ -3,13 +3,14 @@ package guru.nicks.commons.rest.mapper;
 import guru.nicks.commons.rest.v1.dto.PageDto;
 
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.function.Function;
 
 /**
- * Delegator class for {@link PageRules} that delegates all method calls to a provided delegate instance.
+ * Delegator for {@link PageRules} that delegates all method calls to a provided instance.
  *
  * @param <T>   type of object being managed
  * @param <ID>  object ID type
@@ -22,7 +23,8 @@ public abstract class PageRulesDelegator<T, ID, DTO> extends PageRules<T, ID, DT
     /**
      * Delegate instance to which all method calls are forwarded.
      */
-    protected final PageRules<T, ID, DTO> delegate;
+    @NonNull // Lombok creates runtime nullness check for this own annotation only
+    private final PageRules<T, ID, DTO> delegate;
 
     /**
      * Delegates to {@link DtoRules#getIfExistsAndAccessible(Object)}.

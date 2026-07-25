@@ -1,13 +1,14 @@
 package guru.nicks.commons.rest.mapper;
 
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Delegator class for {@link DtoStrategyRules} that delegates all method calls to a provided delegate instance.
+ * Delegator for {@link DtoStrategyRules} that delegates all method calls to a provided instance.
  *
  * @param <T>   source type
  * @param <ID>  object ID type
@@ -16,13 +17,13 @@ import java.util.function.Function;
  */
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
-public abstract class DtoStrategyDelegator<T, ID, S, DTO>
-        extends DtoStrategyRules<T, ID, S, DTO> {
+public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrategyRules<T, ID, S, DTO> {
 
     /**
      * Delegate instance to which all method calls are forwarded.
      */
-    protected final DtoStrategyRules<T, ID, S, DTO> delegate;
+    @NonNull // Lombok creates runtime nullness check for this own annotation only
+    private final DtoStrategyRules<T, ID, S, DTO> delegate;
 
     /**
      * Delegates to {@link DtoStrategyRules#getIfExistsAndAccessible(Object)}.

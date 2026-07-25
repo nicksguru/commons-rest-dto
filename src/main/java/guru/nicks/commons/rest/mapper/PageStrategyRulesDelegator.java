@@ -3,6 +3,7 @@ package guru.nicks.commons.rest.mapper;
 import guru.nicks.commons.rest.v1.dto.PageDto;
 
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 
@@ -10,7 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Delegator class for {@link PageStrategyRules} that delegates all method calls to a provided delegate instance.
+ * Delegator for {@link PageStrategyRules} that delegates all method calls to a provided instance.
  *
  * @param <T>   source type
  * @param <ID>  object ID type
@@ -19,13 +20,13 @@ import java.util.function.Function;
  */
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
-public abstract class PageStrategyRulesDelegator<T, ID, S, DTO>
-        extends PageStrategyRules<T, ID, S, DTO> {
+public abstract class PageStrategyRulesDelegator<T, ID, S, DTO> extends PageStrategyRules<T, ID, S, DTO> {
 
     /**
      * Delegate instance to which all method calls are forwarded.
      */
-    protected final PageStrategyRules<T, ID, S, DTO> delegate;
+    @NonNull // Lombok creates runtime nullness check for this own annotation only
+    private final PageStrategyRules<T, ID, S, DTO> delegate;
 
     /**
      * Delegates to {@link DtoStrategyRules#getIfExistsAndAccessible(Object)}.

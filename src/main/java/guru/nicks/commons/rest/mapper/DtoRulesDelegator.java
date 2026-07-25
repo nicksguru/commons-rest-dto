@@ -1,12 +1,13 @@
 package guru.nicks.commons.rest.mapper;
 
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.function.Function;
 
 /**
- * Delegator class for {@link DtoRules} that delegates all method calls to a provided delegate instance.
+ * Delegator for {@link DtoRules} that delegates all method calls to a provided instance.
  *
  * @param <T>   type of object being managed
  * @param <ID>  object ID type
@@ -19,7 +20,8 @@ public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO>
     /**
      * Delegate instance to which all method calls are forwarded.
      */
-    protected final DtoRules<T, ID, DTO> delegate;
+    @NonNull // Lombok creates runtime nullness check for this own annotation only
+    private final DtoRules<T, ID, DTO> delegate;
 
     /**
      * Delegates to {@link DtoRules#getIfExistsAndAccessible(Object)}.

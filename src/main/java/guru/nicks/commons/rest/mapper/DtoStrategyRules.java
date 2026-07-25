@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 /**
  * Provides uniform methods for mapping between source and DTO. All the methods are {@code protected} to avoid exposing
- * * them in controllers inadvertently.
+ * them in controllers inadvertently.
  *
  * @param <T>   source type
  * @param <S>   mapping strategy type
