@@ -2,75 +2,72 @@ package guru.nicks.commons.rest.mapper;
 
 import guru.nicks.commons.rest.v1.dto.PageDto;
 
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.function.Function;
 
 /**
- * Delegator for {@link PageRules} that delegates all method calls to a provided instance.
+ * Delegator for {@link PageDtoRules} that delegates all method calls to {@link #getPageDtoRules()}.
  *
  * @param <T>   type of object being managed
  * @param <ID>  object ID type
  * @param <DTO> DTO type
  */
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
-public abstract class PageRulesDelegator<T, ID, DTO> extends PageRules<T, ID, DTO> {
+public abstract class PageDtoRulesDelegator<T, ID, DTO> extends PageDtoRules<T, ID, DTO> {
 
     /**
-     * Delegate instance to which all method calls are forwarded.
+     * Provides the delegate instance to which all method calls are forwarded.
+     *
+     * @return delegate instance
      */
-    @NonNull // Lombok creates runtime nullness check for this own annotation only
-    private final PageRules<T, ID, DTO> delegate;
+    protected abstract PageDtoRules<T, ID, DTO> getPageDtoRules();
 
     /**
-     * Delegates to {@link DtoRules#getIfExistsAndAccessible(Object)}.
+     * Delegates to {@link PageDtoRules#getIfExistsAndAccessible(Object)}.
      *
      * @param id object ID
      * @return object
      */
     @Override
     protected T getIfExistsAndAccessible(ID id) {
-        return delegate.getIfExistsAndAccessible(id);
+        return getPageDtoRules().getIfExistsAndAccessible(id);
     }
 
     /**
-     * Delegates to {@link DtoRules#getDtoIfExistsAndAccessible(Object)}.
+     * Delegates to {@link PageDtoRules#getDtoIfExistsAndAccessible(Object)}.
      *
      * @param id object ID
      * @return DTO
      */
     @Override
     protected DTO getDtoIfExistsAndAccessible(ID id) {
-        return delegate.getDtoIfExistsAndAccessible(id);
+        return getPageDtoRules().getDtoIfExistsAndAccessible(id);
     }
 
     /**
-     * Delegates to {@link DtoRules#toDto(Object)}.
+     * Delegates to {@link PageDtoRules#toDto(Object)}.
      *
      * @param source source object
      * @return DTO
      */
     @Override
     protected DTO toDto(T source) {
-        return delegate.toDto(source);
+        return getPageDtoRules().toDto(source);
     }
 
     /**
-     * Delegates to {@link DtoRules#getDtoMapper()}.
+     * Delegates to {@link PageDtoRules#getDtoMapper()}.
      *
      * @return mapper from source to DTO
      */
     @Override
     protected Function<T, DTO> getDtoMapper() {
-        return delegate.getDtoMapper();
+        return getPageDtoRules().getDtoMapper();
     }
 
     /**
-     * Delegates to {@link DtoRules#ifExistsAndAccessible(Object, Function)}.
+     * Delegates to {@link PageDtoRules#ifExistsAndAccessible(Object, Function)}.
      *
      * @param id     object ID
      * @param mapper function to call
@@ -79,28 +76,28 @@ public abstract class PageRulesDelegator<T, ID, DTO> extends PageRules<T, ID, DT
      */
     @Override
     protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
-        return delegate.ifExistsAndAccessible(id, mapper);
+        return getPageDtoRules().ifExistsAndAccessible(id, mapper);
     }
 
     /**
-     * Delegates to {@link PageRules#getPageDtoMapper()}.
+     * Delegates to {@link PageDtoRules#getPageDtoMapper()}.
      *
      * @return mapper from a page of source objects to a page of DTOs
      */
     @Override
     protected Function<Page<T>, PageDto<DTO>> getPageDtoMapper() {
-        return delegate.getPageDtoMapper();
+        return getPageDtoRules().getPageDtoMapper();
     }
 
     /**
-     * Delegates to {@link PageRules#toPageDto(Page)}.
+     * Delegates to {@link PageDtoRules#toPageDto(Page)}.
      *
      * @param page source page
      * @return DTO page
      */
     @Override
     protected PageDto<DTO> toPageDto(Page<T> page) {
-        return delegate.toPageDto(page);
+        return getPageDtoRules().toPageDto(page);
     }
 
 }

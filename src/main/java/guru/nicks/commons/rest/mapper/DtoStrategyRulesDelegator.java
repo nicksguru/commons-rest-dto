@@ -1,29 +1,25 @@
 package guru.nicks.commons.rest.mapper;
 
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Delegator for {@link DtoStrategyRules} that delegates all method calls to a provided instance.
+ * Delegator for {@link DtoStrategyRules} that delegates all method calls to {@link #getDtoStrategyRules()}}.
  *
  * @param <T>   source type
  * @param <ID>  object ID type
  * @param <S>   mapping strategy type
  * @param <DTO> DTO type
  */
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
 public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrategyRules<T, ID, S, DTO> {
 
     /**
-     * Delegate instance to which all method calls are forwarded.
+     * Provides the delegate instance to which all method calls are forwarded.
+     *
+     * @return delegate instance
      */
-    @NonNull // Lombok creates runtime nullness check for this own annotation only
-    private final DtoStrategyRules<T, ID, S, DTO> delegate;
+    protected abstract DtoStrategyRules<T, ID, S, DTO> getDtoStrategyRules();
 
     /**
      * Delegates to {@link DtoStrategyRules#getIfExistsAndAccessible(Object)}.
@@ -33,7 +29,7 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
      */
     @Override
     protected T getIfExistsAndAccessible(ID id) {
-        return delegate.getIfExistsAndAccessible(id);
+        return getDtoStrategyRules().getIfExistsAndAccessible(id);
     }
 
     /**
@@ -45,7 +41,7 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
      */
     @Override
     protected DTO getDtoIfExistsAndAccessible(ID id, S mappingStrategy) {
-        return delegate.getDtoIfExistsAndAccessible(id, mappingStrategy);
+        return getDtoStrategyRules().getDtoIfExistsAndAccessible(id, mappingStrategy);
     }
 
     /**
@@ -56,7 +52,7 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
      */
     @Override
     protected DTO getDtoIfExistsAndAccessible(ID id) {
-        return delegate.getDtoIfExistsAndAccessible(id);
+        return getDtoStrategyRules().getDtoIfExistsAndAccessible(id);
     }
 
     /**
@@ -68,7 +64,7 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
      */
     @Override
     protected DTO toDto(T source, S mappingStrategy) {
-        return delegate.toDto(source, mappingStrategy);
+        return getDtoStrategyRules().toDto(source, mappingStrategy);
     }
 
     /**
@@ -79,7 +75,7 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
      */
     @Override
     protected DTO toDto(T source) {
-        return delegate.toDto(source);
+        return getDtoStrategyRules().toDto(source);
     }
 
     /**
@@ -89,7 +85,7 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
      */
     @Override
     protected BiFunction<T, S, DTO> getDtoMapper() {
-        return delegate.getDtoMapper();
+        return getDtoStrategyRules().getDtoMapper();
     }
 
     /**
@@ -99,7 +95,7 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
      */
     @Override
     protected S getDefaultMappingStrategy() {
-        return delegate.getDefaultMappingStrategy();
+        return getDtoStrategyRules().getDefaultMappingStrategy();
     }
 
     /**
@@ -112,7 +108,7 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
      */
     @Override
     protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
-        return delegate.ifExistsAndAccessible(id, mapper);
+        return getDtoStrategyRules().ifExistsAndAccessible(id, mapper);
     }
 
 }

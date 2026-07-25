@@ -15,7 +15,7 @@ import java.util.function.BiFunction;
  * @param <DTO> DTO type
  */
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
-public abstract class PageStrategyRules<T, ID, S, DTO> extends DtoStrategyRules<T, ID, S, DTO> {
+public abstract class PageDtoStrategyRules<T, ID, S, DTO> extends DtoStrategyRules<T, ID, S, DTO> {
 
     /**
      * @return mapper from a page of source objects to a page of DTOs

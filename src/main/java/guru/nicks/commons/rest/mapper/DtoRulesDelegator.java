@@ -1,27 +1,23 @@
 package guru.nicks.commons.rest.mapper;
 
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
 import java.util.function.Function;
 
 /**
- * Delegator for {@link DtoRules} that delegates all method calls to a provided instance.
+ * Delegator for {@link DtoRules} that delegates all method calls to {@link #getDtoRules()}}.
  *
  * @param <T>   type of object being managed
  * @param <ID>  object ID type
  * @param <DTO> DTO type
  */
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
 public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO> {
 
     /**
-     * Delegate instance to which all method calls are forwarded.
+     * Provides the delegate instance to which all method calls are forwarded.
+     *
+     * @return delegate instance
      */
-    @NonNull // Lombok creates runtime nullness check for this own annotation only
-    private final DtoRules<T, ID, DTO> delegate;
+    protected abstract DtoRules<T, ID, DTO> getDtoRules();
 
     /**
      * Delegates to {@link DtoRules#getIfExistsAndAccessible(Object)}.
@@ -31,7 +27,7 @@ public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO>
      */
     @Override
     protected T getIfExistsAndAccessible(ID id) {
-        return delegate.getIfExistsAndAccessible(id);
+        return getDtoRules().getIfExistsAndAccessible(id);
     }
 
     /**
@@ -42,7 +38,7 @@ public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO>
      */
     @Override
     protected DTO getDtoIfExistsAndAccessible(ID id) {
-        return delegate.getDtoIfExistsAndAccessible(id);
+        return getDtoRules().getDtoIfExistsAndAccessible(id);
     }
 
     /**
@@ -53,7 +49,7 @@ public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO>
      */
     @Override
     protected DTO toDto(T source) {
-        return delegate.toDto(source);
+        return getDtoRules().toDto(source);
     }
 
     /**
@@ -63,7 +59,7 @@ public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO>
      */
     @Override
     protected Function<T, DTO> getDtoMapper() {
-        return delegate.getDtoMapper();
+        return getDtoRules().getDtoMapper();
     }
 
     /**
@@ -76,7 +72,7 @@ public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO>
      */
     @Override
     protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
-        return delegate.ifExistsAndAccessible(id, mapper);
+        return getDtoRules().ifExistsAndAccessible(id, mapper);
     }
 
 }

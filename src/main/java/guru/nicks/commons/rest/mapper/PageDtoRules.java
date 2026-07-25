@@ -15,7 +15,7 @@ import java.util.function.Function;
  * @param <DTO> DTO type
  */
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
-public abstract class PageRules<T, ID, DTO> extends DtoRules<T, ID, DTO> {
+public abstract class PageDtoRules<T, ID, DTO> extends DtoRules<T, ID, DTO> {
 
     /**
      * @return mapper from a page of source objects to a page of DTOs

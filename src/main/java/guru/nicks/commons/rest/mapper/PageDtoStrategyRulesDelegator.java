@@ -2,45 +2,42 @@ package guru.nicks.commons.rest.mapper;
 
 import guru.nicks.commons.rest.v1.dto.PageDto;
 
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Delegator for {@link PageStrategyRules} that delegates all method calls to a provided instance.
+ * Delegator for {@link PageDtoStrategyRules} that delegates all method calls to {@link #getPageDtoStrategyRules()}.
  *
  * @param <T>   source type
  * @param <ID>  object ID type
  * @param <S>   mapping strategy type
  * @param <DTO> DTO type
  */
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
-public abstract class PageStrategyRulesDelegator<T, ID, S, DTO> extends PageStrategyRules<T, ID, S, DTO> {
+public abstract class PageDtoStrategyRulesDelegator<T, ID, S, DTO> extends PageDtoStrategyRules<T, ID, S, DTO> {
 
     /**
-     * Delegate instance to which all method calls are forwarded.
+     * Provides the delegate instance to which all method calls are forwarded.
+     *
+     * @return delegate instance
      */
-    @NonNull // Lombok creates runtime nullness check for this own annotation only
-    private final PageStrategyRules<T, ID, S, DTO> delegate;
+    protected abstract PageDtoStrategyRules<T, ID, S, DTO> getPageDtoStrategyRules();
 
     /**
-     * Delegates to {@link DtoStrategyRules#getIfExistsAndAccessible(Object)}.
+     * Delegates to {@link PageDtoStrategyRules#getIfExistsAndAccessible(Object)}.
      *
      * @param id object ID
      * @return object
      */
     @Override
     protected T getIfExistsAndAccessible(ID id) {
-        return delegate.getIfExistsAndAccessible(id);
+        return getPageDtoStrategyRules().getIfExistsAndAccessible(id);
     }
 
     /**
-     * Delegates to {@link DtoStrategyRules#getDtoIfExistsAndAccessible(Object, Object)}.
+     * Delegates to {@link PageDtoStrategyRules#getDtoIfExistsAndAccessible(Object, Object)}.
      *
      * @param id              object ID
      * @param mappingStrategy mapping strategy
@@ -48,22 +45,22 @@ public abstract class PageStrategyRulesDelegator<T, ID, S, DTO> extends PageStra
      */
     @Override
     protected DTO getDtoIfExistsAndAccessible(ID id, S mappingStrategy) {
-        return delegate.getDtoIfExistsAndAccessible(id, mappingStrategy);
+        return getPageDtoStrategyRules().getDtoIfExistsAndAccessible(id, mappingStrategy);
     }
 
     /**
-     * Delegates to {@link DtoStrategyRules#getDtoIfExistsAndAccessible(Object)}.
+     * Delegates to {@link PageDtoStrategyRules#getDtoIfExistsAndAccessible(Object)}.
      *
      * @param id object ID
      * @return DTO
      */
     @Override
     protected DTO getDtoIfExistsAndAccessible(ID id) {
-        return delegate.getDtoIfExistsAndAccessible(id);
+        return getPageDtoStrategyRules().getDtoIfExistsAndAccessible(id);
     }
 
     /**
-     * Delegates to {@link DtoStrategyRules#toDto(Object, Object)}.
+     * Delegates to {@link PageDtoStrategyRules#toDto(Object, Object)}.
      *
      * @param source          source object
      * @param mappingStrategy mapping strategy
@@ -71,42 +68,42 @@ public abstract class PageStrategyRulesDelegator<T, ID, S, DTO> extends PageStra
      */
     @Override
     protected DTO toDto(T source, S mappingStrategy) {
-        return delegate.toDto(source, mappingStrategy);
+        return getPageDtoStrategyRules().toDto(source, mappingStrategy);
     }
 
     /**
-     * Delegates to {@link DtoStrategyRules#toDto(Object)}.
+     * Delegates to {@link PageDtoStrategyRules#toDto(Object)}.
      *
      * @param source source object
      * @return DTO
      */
     @Override
     protected DTO toDto(T source) {
-        return delegate.toDto(source);
+        return getPageDtoStrategyRules().toDto(source);
     }
 
     /**
-     * Delegates to {@link DtoStrategyRules#getDtoMapper()}.
+     * Delegates to {@link PageDtoStrategyRules#getDtoMapper()}.
      *
      * @return mapper from source to DTO
      */
     @Override
     protected BiFunction<T, S, DTO> getDtoMapper() {
-        return delegate.getDtoMapper();
+        return getPageDtoStrategyRules().getDtoMapper();
     }
 
     /**
-     * Delegates to {@link DtoStrategyRules#getDefaultMappingStrategy()}.
+     * Delegates to {@link PageDtoStrategyRules#getDefaultMappingStrategy()}.
      *
      * @return default mapping strategy
      */
     @Override
     protected S getDefaultMappingStrategy() {
-        return delegate.getDefaultMappingStrategy();
+        return getPageDtoStrategyRules().getDefaultMappingStrategy();
     }
 
     /**
-     * Delegates to {@link DtoStrategyRules#ifExistsAndAccessible(Object, Function)}.
+     * Delegates to {@link PageDtoStrategyRules#ifExistsAndAccessible(Object, Function)}.
      *
      * @param id     object ID
      * @param mapper function to call
@@ -115,21 +112,21 @@ public abstract class PageStrategyRulesDelegator<T, ID, S, DTO> extends PageStra
      */
     @Override
     protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
-        return delegate.ifExistsAndAccessible(id, mapper);
+        return getPageDtoStrategyRules().ifExistsAndAccessible(id, mapper);
     }
 
     /**
-     * Delegates to {@link PageStrategyRules#getPageDtoMapper()}.
+     * Delegates to {@link PageDtoStrategyRules#getPageDtoMapper()}.
      *
      * @return mapper from a page of source objects to a page of DTOs
      */
     @Override
     protected BiFunction<Page<T>, S, PageDto<DTO>> getPageDtoMapper() {
-        return delegate.getPageDtoMapper();
+        return getPageDtoStrategyRules().getPageDtoMapper();
     }
 
     /**
-     * Delegates to {@link PageStrategyRules#toPageDto(Page, Object)}.
+     * Delegates to {@link PageDtoStrategyRules#toPageDto(Page, Object)}.
      *
      * @param page            source page
      * @param mappingStrategy mapping strategy
@@ -137,7 +134,7 @@ public abstract class PageStrategyRulesDelegator<T, ID, S, DTO> extends PageStra
      */
     @Override
     protected PageDto<DTO> toPageDto(Page<T> page, S mappingStrategy) {
-        return delegate.toPageDto(page, mappingStrategy);
+        return getPageDtoStrategyRules().toPageDto(page, mappingStrategy);
     }
 
 }
