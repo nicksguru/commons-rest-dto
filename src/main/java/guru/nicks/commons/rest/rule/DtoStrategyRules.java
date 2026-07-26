@@ -1,4 +1,4 @@
-package guru.nicks.commons.rest.mapper;
+package guru.nicks.commons.rest.rule;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -12,23 +12,12 @@ import java.util.function.Function;
  * @param <DTO> DTO type
  */
 @SuppressWarnings("java:S119") // allow non-single-letter type names in generics
-public abstract class DtoStrategyRules<T, ID, S, DTO> {
+public abstract class DtoStrategyRules<T, ID, S, DTO> extends AccessRules<T, ID> {
 
     /**
      * Retrieves an object with the given ID by calling {@link #ifExistsAndAccessible(Object, Function)}. This means
-     * non-existing and inaccessible objects should raise a 'Not Found' exception.
-     *
-     * @param id object ID
-     * @return object
-     */
-    protected T getIfExistsAndAccessible(ID id) {
-        return ifExistsAndAccessible(id, Function.identity());
-    }
-
-    /**
-     * Retrieves an object with the given ID by calling {@link #ifExistsAndAccessible(Object, Function)}. This means
-     * non-existing and inaccessible objectsshould  raise a 'Not Found' exception. Then, maps the object to a DTO using
-     * {@link #toDto(Object, Object)}.
+     * non-existing and inaccessible objects should raise the same 'Not Found' exception. Then, maps the object to a DTO
+     * using {@link #toDto(Object, Object)}.
      *
      * @param id              object ID
      * @param mappingStrategy mapping strategy (affects e.g. which lazy-loaded JPA properties to map and thus load from
@@ -58,7 +47,7 @@ public abstract class DtoStrategyRules<T, ID, S, DTO> {
      *                        DB)
      * @return DTO
      */
-    @SuppressWarnings("UnnecessaryLocalVariable")
+    @SuppressWarnings({"UnnecessaryLocalVariable", "java:S1488"}) // for debugging
     protected DTO toDto(T source, S mappingStrategy) {
         DTO dto = getDtoMapper().apply(source, mappingStrategy);
         return dto;
@@ -80,18 +69,5 @@ public abstract class DtoStrategyRules<T, ID, S, DTO> {
      * @return default mapping strategy (applied by {@link #toDto(T)})
      */
     protected abstract S getDefaultMappingStrategy();
-
-    /**
-     * Runs a given mapper function for the object with the specified ID.
-     * <p>
-     * If the object does not exist OR the current user has access to it, a <b>'Not Found' exception should be thrown in
-     * both cases</b> - to prevent users from knowing if somebody else's objects exists.
-     *
-     * @param id     object ID
-     * @param mapper function to call (in JPA context, make sure a transaction is created to make the function atomic)
-     * @param <R>    mapper result type
-     * @return what the mapper returns
-     */
-    protected abstract <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper);
 
 }

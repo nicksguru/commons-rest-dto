@@ -1,6 +1,6 @@
-package guru.nicks.commons.rest.mapper;
+package guru.nicks.commons.rest.rule;
 
-import guru.nicks.commons.rest.v1.dto.PageDto;
+import guru.nicks.commons.rest.dto.PageDto;
 
 import org.springframework.data.domain.Page;
 
@@ -30,7 +30,7 @@ public abstract class PageDtoStrategyRules<T, ID, S, DTO> extends DtoStrategyRul
      *                        DB)
      * @return DTO
      */
-    @SuppressWarnings("UnnecessaryLocalVariable")
+    @SuppressWarnings({"UnnecessaryLocalVariable", "java:S1488"}) // for debugging
     protected PageDto<DTO> toPageDto(Page<T> page, S mappingStrategy) {
         PageDto<DTO> dto = getPageDtoMapper().apply(page, mappingStrategy);
         return dto;

@@ -1,4 +1,4 @@
-package guru.nicks.commons.rest.mapper;
+package guru.nicks.commons.rest.rule;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -30,6 +30,19 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
     @Override
     protected T getIfExistsAndAccessible(ID id) {
         return getDtoStrategyRules().getIfExistsAndAccessible(id);
+    }
+
+    /**
+     * Delegates to {@link DtoStrategyRules#ifExistsAndAccessible(Object, Function)}.
+     *
+     * @param id     object ID
+     * @param mapper function to call
+     * @param <R>    mapper result type
+     * @return what the mapper returns
+     */
+    @Override
+    protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
+        return getDtoStrategyRules().ifExistsAndAccessible(id, mapper);
     }
 
     /**
@@ -96,19 +109,6 @@ public abstract class DtoStrategyRulesDelegator<T, ID, S, DTO> extends DtoStrate
     @Override
     protected S getDefaultMappingStrategy() {
         return getDtoStrategyRules().getDefaultMappingStrategy();
-    }
-
-    /**
-     * Delegates to {@link DtoStrategyRules#ifExistsAndAccessible(Object, Function)}.
-     *
-     * @param id     object ID
-     * @param mapper function to call
-     * @param <R>    mapper result type
-     * @return what the mapper returns
-     */
-    @Override
-    protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
-        return getDtoStrategyRules().ifExistsAndAccessible(id, mapper);
     }
 
 }

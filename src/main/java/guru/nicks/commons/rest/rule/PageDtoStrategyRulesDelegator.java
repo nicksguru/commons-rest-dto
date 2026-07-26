@@ -1,6 +1,6 @@
-package guru.nicks.commons.rest.mapper;
+package guru.nicks.commons.rest.rule;
 
-import guru.nicks.commons.rest.v1.dto.PageDto;
+import guru.nicks.commons.rest.dto.PageDto;
 
 import org.springframework.data.domain.Page;
 
@@ -34,6 +34,19 @@ public abstract class PageDtoStrategyRulesDelegator<T, ID, S, DTO> extends PageD
     @Override
     protected T getIfExistsAndAccessible(ID id) {
         return getPageDtoStrategyRules().getIfExistsAndAccessible(id);
+    }
+
+    /**
+     * Delegates to {@link PageDtoStrategyRules#ifExistsAndAccessible(Object, Function)}.
+     *
+     * @param id     object ID
+     * @param mapper function to call
+     * @param <R>    mapper result type
+     * @return what the mapper returns
+     */
+    @Override
+    protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
+        return getPageDtoStrategyRules().ifExistsAndAccessible(id, mapper);
     }
 
     /**
@@ -100,19 +113,6 @@ public abstract class PageDtoStrategyRulesDelegator<T, ID, S, DTO> extends PageD
     @Override
     protected S getDefaultMappingStrategy() {
         return getPageDtoStrategyRules().getDefaultMappingStrategy();
-    }
-
-    /**
-     * Delegates to {@link PageDtoStrategyRules#ifExistsAndAccessible(Object, Function)}.
-     *
-     * @param id     object ID
-     * @param mapper function to call
-     * @param <R>    mapper result type
-     * @return what the mapper returns
-     */
-    @Override
-    protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
-        return getPageDtoStrategyRules().ifExistsAndAccessible(id, mapper);
     }
 
     /**

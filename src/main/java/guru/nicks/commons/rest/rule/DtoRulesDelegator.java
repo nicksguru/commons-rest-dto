@@ -1,4 +1,4 @@
-package guru.nicks.commons.rest.mapper;
+package guru.nicks.commons.rest.rule;
 
 import java.util.function.Function;
 
@@ -31,6 +31,19 @@ public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO>
     }
 
     /**
+     * Delegates to {@link DtoRules#ifExistsAndAccessible(Object, Function)}.
+     *
+     * @param id     object ID
+     * @param mapper function to call
+     * @param <R>    mapper result type
+     * @return what the mapper returns
+     */
+    @Override
+    protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
+        return getDtoRules().ifExistsAndAccessible(id, mapper);
+    }
+
+    /**
      * Delegates to {@link DtoRules#getDtoIfExistsAndAccessible(Object)}.
      *
      * @param id object ID
@@ -60,19 +73,6 @@ public abstract class DtoRulesDelegator<T, ID, DTO> extends DtoRules<T, ID, DTO>
     @Override
     protected Function<T, DTO> getDtoMapper() {
         return getDtoRules().getDtoMapper();
-    }
-
-    /**
-     * Delegates to {@link DtoRules#ifExistsAndAccessible(Object, Function)}.
-     *
-     * @param id     object ID
-     * @param mapper function to call
-     * @param <R>    mapper result type
-     * @return what the mapper returns
-     */
-    @Override
-    protected <R> R ifExistsAndAccessible(ID id, Function<? super T, R> mapper) {
-        return getDtoRules().ifExistsAndAccessible(id, mapper);
     }
 
 }
